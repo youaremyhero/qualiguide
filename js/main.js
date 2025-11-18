@@ -185,11 +185,24 @@ document.addEventListener("DOMContentLoaded", () => {
       defaultOption.textContent = "-- Select your qualification --";
       select.appendChild(defaultOption);
 
+      let activeGroup = null;
+      let optgroupEl = null;
       step.options.forEach(opt => {
-        const o = document.createElement("option");
-        o.value = opt.value;
-        o.textContent = opt.label;
-        select.appendChild(o);
+        const nextGroup = opt.group || null;
+        if (nextGroup !== activeGroup) {
+          activeGroup = nextGroup;
+          optgroupEl = null;
+          if (nextGroup) {
+            optgroupEl = document.createElement("optgroup");
+            optgroupEl.label = nextGroup;
+            select.appendChild(optgroupEl);
+          }
+        }
+
+        const optionEl = document.createElement("option");
+        optionEl.value = opt.value;
+        optionEl.textContent = opt.label;
+        (optgroupEl || select).appendChild(optionEl);
       });
 
       // ==== Expand-on-focus behavior (DESKTOP ONLY) ====

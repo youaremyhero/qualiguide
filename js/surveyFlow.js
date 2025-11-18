@@ -2,17 +2,41 @@
 // surveyFlow.js (updated)
 // -------------------------------
 
+const TYPE_ORDER = { local: 0, international: 1 };
+const GROUP_LABELS = {
+  local: "Local Qualifications",
+  international: "International Qualifications"
+};
+
+function normalizeQualificationList(list) {
+  const collator = typeof Intl !== "undefined" && typeof Intl.Collator === "function"
+    ? new Intl.Collator("en", { sensitivity: "base" })
+    : null;
+  return list
+    .filter(q => q && q.id !== "transfer")
+    .sort((a, b) => {
+      const typeOrder = (TYPE_ORDER[a.type] ?? 99) - (TYPE_ORDER[b.type] ?? 99);
+      if (typeOrder !== 0) return typeOrder;
+      const aName = String(a.name || "");
+      const bName = String(b.name || "");
+      return collator ? collator.compare(aName, bName) : aName.localeCompare(bName);
+    });
+}
+
 // Build the full list of qualifications (excluding Transfer)
 function buildAllQualificationsList() {
   const local = Array.isArray(window.localQualifications) ? window.localQualifications : [];
   const international = Array.isArray(window.internationalQualifications) ? window.internationalQualifications : [];
 
-  return [...local, ...international]
-    .filter(q => q && q.id !== "transfer");
+  return normalizeQualificationList([...local, ...international]);
 }
 
 function mapQualificationOptions(list) {
-  return list.map(q => ({ label: q.name, value: q.id }));
+  return list.map(q => ({
+    label: q.name,
+    value: q.id,
+    group: GROUP_LABELS[q.type] || null
+  }));
 }
 
 // -------------------------------
