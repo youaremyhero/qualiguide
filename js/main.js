@@ -97,10 +97,35 @@ document.addEventListener("DOMContentLoaded", () => {
   function closeAllDropdowns(exceptEl = null) {
     document.querySelectorAll("select.dropdown.dropdown-open").forEach(sel => {
       if (sel !== exceptEl) {
-        sel.classList.remove("dropdown-open", "dropdown-open-up");
-        sel.removeAttribute("size");
+        if (typeof sel._collapseDropdown === "function") {
+          sel._collapseDropdown();
+        } else {
+          sel.classList.remove("dropdown-open", "dropdown-open-up");
+          sel.removeAttribute("size");
+        }
       }
     });
+  }
+
+  function renderQualificationContent(qualification, audience) {
+    const templates = window.templates || {};
+    const templateMap = {
+      international: templates.internationalQualificationTemplate,
+      local: templates.localQualificationTemplate,
+      transfer: templates.transferTemplate
+    };
+
+    const templateFn = templateMap[qualification.type];
+    if (typeof templateFn === "function") {
+      return templateFn(qualification, { audience });
+    }
+
+    if (typeof templates.defaultQualificationTemplate === "function") {
+      return templates.defaultQualificationTemplate(qualification, { audience });
+    }
+
+    const fallbackName = qualification?.name || "Selected qualification";
+    return `<div class="info-card"><p>${fallbackName}</p></div>`;
   }
 
   // ----- renderers
@@ -108,6 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const step = flowMap[stepId];
     if (!step) return;
 
+    closeAllDropdowns();
     currentStepId = stepId;
 
     if (pageTitle) pageTitle.innerHTML = "";
@@ -171,6 +197,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const ROW_HEIGHT = 34; // for flip decision only
         const V_PADDING = 16;
 
+        const handleOutsidePointer = (event) => {
+          if (!wrap.contains(event.target)) collapse();
+        };
+
+        const detachOutsideListener = () => {
+          document.removeEventListener("pointerdown", handleOutsidePointer);
+        };
+
+        const attachOutsideListener = () => {
+          detachOutsideListener();
+          document.addEventListener("pointerdown", handleOutsidePointer, { passive: true });
+        };
+
+        const collapse = () => {
+          select.classList.remove("dropdown-open", "dropdown-open-up");
+          select.removeAttribute("size"); // restore native single-row
+          detachOutsideListener();
+        };
+
+        select._collapseDropdown = collapse;
+
         const expand = () => {
           if (select.classList.contains("dropdown-open")) return;
 
@@ -189,11 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
           select.classList.add("dropdown-open");
           if (openUp) select.classList.add("dropdown-open-up");
           else select.classList.remove("dropdown-open-up");
-        };
-
-        const collapse = () => {
-          select.classList.remove("dropdown-open", "dropdown-open-up");
-          select.removeAttribute("size"); // restore native single-row
+          attachOutsideListener();
         };
 
         // Open on focus/click
@@ -216,14 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
             collapse();
           }
         });
-
-        // Close when clicking outside (desktop only)
-        const onDocPointerDown = (e) => {
-          if (!wrap.contains(e.target)) collapse();
-        };
-        setTimeout(() => {
-          document.addEventListener("pointerdown", onDocPointerDown, { passive: true, once: true });
-        }, 0);
       }
       // (On touch, we rely on the native picker—no custom listeners)
 
@@ -263,6 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function renderEndPage(qualificationId) {
+    closeAllDropdowns();
     const allQuals = window.qualificationsData || [];
     const qualification =
       allQuals.find(q => q.id === qualificationId) ||
@@ -280,20 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const headerHTML = setPageTitleHTML(qualification);
     const audience = getAudience();
-    let contentHTML = "";
-    switch (qualification.type) {
-      case "international":
-        contentHTML = window.templates.internationalQualificationTemplate(qualification, { audience });
-        break;
-      case "local":
-        contentHTML = window.templates.localQualificationTemplate(qualification, { audience });
-        break;
-      case "transfer":
-        contentHTML = window.templates.transferTemplate(qualification, { audience });
-        break;
-      default:
-        contentHTML = `<div class="info-card"><p>${qualification.name}</p></div>`;
-    }
+    const contentHTML = renderQualificationContent(qualification, audience);
 
     quizContainer.innerHTML = headerHTML + contentHTML;
 
