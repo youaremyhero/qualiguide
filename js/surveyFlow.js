@@ -3,20 +3,23 @@
 // -------------------------------
 
 // Build the full list of qualifications (excluding Transfer)
-const allQualifications = [
-  ...(window.localQualifications || []),
-  ...(window.internationalQualifications || [])
-].filter(q => q.id !== "transfer");
+function buildAllQualificationsList() {
+  const local = Array.isArray(window.localQualifications) ? window.localQualifications : [];
+  const international = Array.isArray(window.internationalQualifications) ? window.internationalQualifications : [];
 
-// Debugging: log qualifications
-console.log(
-  "All qualifications for dropdown:",
-  allQualifications.map(q => q.name)
-);
+  return [...local, ...international]
+    .filter(q => q && q.id !== "transfer");
+}
+
+function mapQualificationOptions(list) {
+  return list.map(q => ({ label: q.name, value: q.id }));
+}
 
 // -------------------------------
 // Survey Flow
 // -------------------------------
+let cachedQualifications = buildAllQualificationsList();
+
 const surveyFlow = [
   {
     id: "transfer",
@@ -32,7 +35,7 @@ const surveyFlow = [
         case "Local universities (NUS, NTU, SMU, SIT, SUTD, SUSS)":
           // NEW: branch to a dedicated nationality step that always lands on Transfer
           return "nationality_local_transfer";
-        case "Overseas universities OR tertiary institutions":
+        case "Overseas tertiary institutions":
           // Existing overseas branch
           return "nationality_transfer";
         case "I have never enrolled in a university OR tertiary institution before":
@@ -95,9 +98,10 @@ const surveyFlow = [
   {
     id: "qualification",
     question: "What qualification will you be using to apply to the National University of Singapore (NUS)?",
-    options: allQualifications.map(q => ({ label: q.name, value: q.id })),
+    options: mapQualificationOptions(cachedQualifications),
     next: function(answerId){
-      const qual = allQualifications.find(q => q.id === answerId);
+      const pool = cachedQualifications.length ? cachedQualifications : buildAllQualificationsList();
+      const qual = pool.find(q => q.id === answerId);
       if (!qual) {
         console.warn("Selected qualification not found:", answerId);
         return null;
@@ -107,6 +111,23 @@ const surveyFlow = [
   }
 ];
 
+function refreshSurveyQualificationOptions() {
+  cachedQualifications = buildAllQualificationsList();
+  const qualificationStep = surveyFlow.find(step => step.id === "qualification");
+  if (qualificationStep) {
+    qualificationStep.options = mapQualificationOptions(cachedQualifications);
+  }
+  return cachedQualifications;
+}
+
+refreshSurveyQualificationOptions();
+
 // Expose to global
 window.surveyFlow = surveyFlow;
+window.getSurveyQualifications = function() {
+  return cachedQualifications.slice();
+};
+window.refreshSurveyQualificationOptions = function() {
+  return refreshSurveyQualificationOptions().slice();
+};
 
