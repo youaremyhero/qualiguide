@@ -1,6 +1,6 @@
 # QualiGuide Quiz
 
-QualiGuide is a lightweight web quiz that helps prospective students discover which qualification pathways to the National University of Singapore (NUS)  best match their profile. By answering a short series of multiple-choice questions on student status, nationality, and current qualifications, visitors receive tailored guidance on what category they should use when applying to NUS and receive a list of applicable resources.
+QualiGuide is a lightweight web quiz that helps prospective students discover which qualification pathways to the National University of Singapore (NUS)  best match their profile. By answering a short series of multiple-choice questions on student status, nationality, and current qualifications, visitors receive tailored guidance on what category they should use when applying to NUS and a list of applicable resources.
 
 ## How the quiz works
 - **Step-by-step flow:** Each question appears on its own screen, keeping the experience focused and mobile friendly.
