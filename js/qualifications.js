@@ -8,8 +8,8 @@ const transferQualification = {
   name: "Transfer",
   type: "transfer",
   periods: [
-    { label: "📅 AY2024/2025 Semester 2", rangeText: "29 October 2024 to 12 November 2024" },
-    { label: "📅 AY2025/2026 Semester 1", rangeText: "4 February 2025 to 18 February 2025" }
+    { label: "📅 AY2025/2026 Semester 2", rangeText: "29 October 2025 to 12 November 2025" },
+    { label: "📅 AY2026/2027 Semester 1", rangeText: "3 February 2026 to 15 February 2026" }
   ],
   displayPeriod: "Multiple Periods",
   timeline: null,
@@ -503,6 +503,7 @@ window.qualificationsData = qualificationsData;
 // Attach separate arrays globally for surveyFlow
 window.localQualifications = localQualifications;
 window.internationalQualifications = internationalQualifications;
+
 
 
 
