@@ -1,15 +1,15 @@
-# qualiguide
+# QualiGuide Quiz
 
-## Known issues and recommendations
+QualiGuide is a lightweight web quiz that helps prospective students discover which qualification pathways in Singapore best match their profile. By answering a short series of multiple-choice questions on nationality, current qualifications, and study goals, visitors receive tailored guidance on whether to continue with local universities, explore overseas programmes, or transfer to more suitable tracks.
 
-1. **Survey routing tied to display strings (current bug fixed in `js/surveyFlow.js`).**
-   * The first survey question compares the visitor’s answer against hard-coded labels such as "Local universities (NUS, NTU, SMU, SIT, SUTD, SUSS)" and "Overseas tertiary institutions" to decide the next step (`next()` inside `surveyFlow[0]`). Because the option text and branching logic must match character-for-character, any copy edit breaks the routing (e.g., the overseas path previously pointed to `null`).
-   * **Recommendation:** Define the options as `{ label, value }` pairs (similar to the qualification dropdown) and switch on the stable `value`, not the text. This ensures content tweaks do not silently break the flow.
+## How the quiz works
+- **Step-by-step flow:** Each question appears on its own screen, keeping the experience focused and mobile friendly.
+- **Adaptive routing:** The quiz dynamically branches based on your answers so that only relevant follow-up questions appear.
+- **Actionable results:** At the end of the flow, users are shown next steps, such as recommended institutions or qualification upgrades.
 
-2. **No fallback when an unexpected answer reaches a `next` function.**
-   * Several `next` handlers in `js/surveyFlow.js` return `null` for unknown answers, which leaves the UI on the same screen with no feedback (`renderStep` simply does nothing). This could happen if future changes introduce or rename options but forget to update the switch statement.
-   * **Recommendation:** Provide a defensive fallback (e.g., default to the safest branch or show an inline error) so the visitor is never stuck even if content drifts.
+## Useful details
+- **Technology stack:** Static HTML, CSS, and vanilla JavaScript (see `index.html`, `css/`, and `js/`).
+- **Customization:** Update the question content and branching logic inside `js/surveyFlow.js`; UI tweaks live in `css/style.css`.
+- **Running locally:** Open `index.html` in any modern browser—no build tools or servers required.
 
-3. **Transfer-to-qualification guard rails are duplicated in `js/main.js`.**
-   * The submit handler contains special-case logic that duplicates flow decisions (e.g., forcing foreigners who pick local qualifications onto the transfer end page). This logic is unaware of the newer `nationality_local_transfer` step and may become stale as the questionnaire evolves.
-   * **Recommendation:** Move these routing rules back into `surveyFlow.js` where all branching lives so there is a single source of truth and new steps stay in sync.
+Feel free to adapt the question flow or styling to match your organization’s admissions guidance needs.
