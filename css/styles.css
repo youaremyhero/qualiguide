@@ -47,6 +47,10 @@ html, body {
   align-items: center;
   gap: 12px;
 }
+
+.header-inner {
+  cursor: pointer;
+}
 .site-logo {
   height: calc(var(--header-h) - 16px);
   width: auto;
@@ -564,6 +568,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
     text-size-adjust: 100%;
   }
 }
+
 
 
 
