@@ -11,7 +11,11 @@
   <header class="site-header">
     <div class="header-inner">
       <img class="site-logo" src="logo.png" alt="NUS Logo">
-      <h1 class="site-title">NUS Qualification Interactive Guide</h1>
+      <h1 class="site-title">
+        <button type="button" class="site-title__restart" id="siteTitleRestart">
+          NUS Qualification Interactive Guide
+        </button>
+      </h1>
     </div>
   </header>
 
@@ -62,17 +66,15 @@
     <script>
     // Allow clicking the header to restart the survey
     document.addEventListener('DOMContentLoaded', function () {
-      const header = document.querySelector('.site-header');
       const restartBtn = document.getElementById('restartBtn');
+      const titleTrigger = document.getElementById('siteTitleRestart');
 
-      if (!header) return;
+      if (!titleTrigger) return;
 
-      header.addEventListener('click', function () {
-        // If the restart button has logic attached, reuse it
+      titleTrigger.addEventListener('click', function () {
         if (restartBtn) {
           restartBtn.click();
         } else {
-          // Fallback: hard refresh
           window.location.href = window.location.pathname;
         }
       });
