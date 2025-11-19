@@ -129,6 +129,45 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----- renderers
+  function followNextStepId(nextStepId) {
+    if (!nextStepId) {
+      console.warn("No next step resolved; restarting survey.");
+      renderStep(window.surveyFlow[0].id);
+      return;
+    }
+
+    if (nextStepId?.startsWith?.("end_")) {
+      renderEndPage(nextStepId.replace("end_", ""));
+    } else {
+      renderStep(nextStepId);
+    }
+  }
+
+  function resolveNextStep(step, selectedValue) {
+    if (!step) return null;
+    let target = typeof step.next === "function" ? step.next(selectedValue, answers) : step.next;
+
+    if (!target && step.fallback) {
+      target = typeof step.fallback === "function" ? step.fallback(selectedValue, answers) : step.fallback;
+    }
+
+    return target || null;
+  }
+
+  function normalizeOption(option) {
+    if (typeof option === "string") {
+      return { label: option, value: option };
+    }
+
+    if (option && typeof option === "object") {
+      const rawLabel = option.label ?? option.value ?? "";
+      const rawValue = option.value ?? option.label ?? "";
+      return { label: String(rawLabel), value: String(rawValue) };
+    }
+
+    return { label: "", value: "" };
+  }
+
   function renderStep(stepId) {
     const step = flowMap[stepId];
     if (!step) return;
@@ -164,9 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (!step.options || step.options.length === 0) {
-      const nextStepId = typeof step.next === "function" ? step.next() : step.next;
-      if (nextStepId?.startsWith?.("end_")) renderEndPage(nextStepId.replace("end_", ""));
-      else if (nextStepId) renderStep(nextStepId);
+      followNextStepId(resolveNextStep(step));
       return;
     }
 
@@ -269,18 +306,21 @@ document.addEventListener("DOMContentLoaded", () => {
       optionsDiv.className = "options-list";
 
       step.options.forEach(opt => {
+        const normalized = normalizeOption(opt);
         const optionDiv = document.createElement("div");
         optionDiv.className = "option";
 
         const input = document.createElement("input");
         input.type = "radio";
         input.name = "userAnswer";
-        input.value = opt;
-        const safeId = String(opt).replace(/\s+/g, "-").replace(/[^a-zA-Z0-9\-]/g, "");
+        input.value = normalized.value;
+        const safeId = String(normalized.value || normalized.label)
+          .replace(/\s+/g, "-")
+          .replace(/[^a-zA-Z0-9\-]/g, "");
         input.id = `${stepId}-${safeId}`;
 
         const label = document.createElement("label");
-        label.textContent = opt;
+        label.textContent = normalized.label;
         label.setAttribute("for", input.id);
 
         optionDiv.appendChild(input);
@@ -347,40 +387,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Save the answer for the current step
     answers[currentStepId] = selected;
 
-    // 🔹 Intercept: Local universities → Foreigner => go straight to Transfer end page
-    if (currentStepId === "nationality_transfer") {
-      const q1 = answers["transfer"]; // the first question's answer
-      if (
-        q1 === "Local universities (NUS, NTU, SMU, SIT, SUTD, SUSS)" &&
-        selected === "Foreigner"
-      ) {
-        renderEndPage("transfer");
-        return;
-      }
-    }
-
-    // Special routing: Overseas → Foreigner → Local quals => end_transfer
-    if (currentStepId === "qualification") {
-      const allQuals = (window.localQualifications || []).concat(window.internationalQualifications || []);
-      const qual = allQuals.find(q => q.id === selected);
-      if (qual) {
-        const natTransfer = answers["nationality_transfer"]; // "Singapore Citizen/ Singapore Permanent Resident" | "Foreigner"
-        if (natTransfer === "Foreigner" && qual.type === "local") {
-          renderEndPage("transfer");
-          return;
-        } else {
-          renderEndPage(selected);
-          return;
-        }
-      }
-    }
-
     // Default next-step logic
     const step = flowMap[currentStepId];
-    const nextStepId = typeof step.next === "function" ? step.next(selected) : step.next;
-
-    if (nextStepId?.startsWith?.("end_")) renderEndPage(nextStepId.replace("end_", ""));
-    else if (nextStepId) renderStep(nextStepId);
+    followNextStepId(resolveNextStep(step, selected));
   });
 
   // PDF: capture only the scroll area (not the actions bar)
