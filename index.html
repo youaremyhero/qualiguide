@@ -59,6 +59,26 @@
     })();
   </script>
 
+    <script>
+    // Allow clicking the header to restart the survey
+    document.addEventListener('DOMContentLoaded', function () {
+      const header = document.querySelector('.site-header');
+      const restartBtn = document.getElementById('restartBtn');
+
+      if (!header) return;
+
+      header.addEventListener('click', function () {
+        // If the restart button has logic attached, reuse it
+        if (restartBtn) {
+          restartBtn.click();
+        } else {
+          // Fallback: hard refresh
+          window.location.href = window.location.pathname;
+        }
+      });
+    });
+  </script>
+
   <footer class="site-footer">
     <div class="footer-inner">
     <p>&copy; 2025 NUS Office of Admissions</p>
@@ -68,5 +88,6 @@
 
 </body>
 </html>
+
 
 
