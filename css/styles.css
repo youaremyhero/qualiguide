@@ -49,7 +49,7 @@ html, body {
 }
 
 .header-inner {
-  cursor: pointer;
+  cursor: default;
 }
 .site-logo {
   height: calc(var(--header-h) - 16px);
@@ -61,6 +61,22 @@ html, body {
   font-size: 1.6rem;
   line-height: 1.1;
   font-weight: 700;
+}
+
+.site-title__restart {
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.site-title__restart:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }
    
 /* Footer keeps centered text; we reserve space on the right for the restart btn */
