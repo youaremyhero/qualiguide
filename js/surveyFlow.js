@@ -27,12 +27,12 @@ const surveyFlow = [
       "Overseas tertiary institutions",
       "I have never enrolled in a university OR tertiary institution before"
     ],
-    next: function(answer){ 
+    next: function(answer){
       switch (answer) {
         case "Local universities (NUS, NTU, SMU, SIT, SUTD, SUSS)":
           // NEW: branch to a dedicated nationality step that always lands on Transfer
           return "nationality_local_transfer";
-        case "Overseas universities OR tertiary institutions":
+        case "Overseas tertiary institutions":
           // Existing overseas branch
           return "nationality_transfer";
         case "I have never enrolled in a university OR tertiary institution before":
