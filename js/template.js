@@ -103,7 +103,7 @@ function renderNoticeCard(qualification) {
     const header = `📅 Application Periods for the ${titleWithQualifier(qualification)}`;
     const list = qualification.periods.map(p => `<li>${p.label}: ${p.rangeText}</li>`).join("");
     return `
-      <div class="notice-card notice-upcoming">
+      <div class="notice-card notice-upcoming-transfer">
         <h2>${header}</h2>
         <ul>${list}</ul>
       </div>
@@ -119,7 +119,7 @@ function renderNoticeCard(qualification) {
   let statusText, cardClass, line3Prefix;
   if (today < start) {
     statusText = "has not started yet.";
-    cardClass = "notice-upcoming";     // light red (via CSS)
+    cardClass = "notice-upcoming";     // light red (matches closed)
     line3Prefix = "Opens on ";
   } else if (today <= end) {
     statusText = "is open.";

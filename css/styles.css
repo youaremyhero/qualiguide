@@ -477,9 +477,10 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .notice-card h2,
 .notice-card p { font-weight: 700; }
 
-.notice-open     { background-color: #f6fff9; border-left: 6px solid #2e7d32; }
-.notice-closed   { background-color: #ffeceb; border-left: 6px solid #c62828; }
-.notice-upcoming { background-color: #ffeceb; border-left: 6px solid #c62828; }
+.notice-open               { background-color: #f6fff9; border-left: 6px solid #2e7d32; }
+.notice-closed             { background-color: #ffeceb; border-left: 6px solid #c62828; }
+.notice-upcoming           { background-color: #ffeceb; border-left: 6px solid #c62828; }
+.notice-upcoming-transfer  { background-color: #e7f3ff; border-left: 6px solid #1976d2; }
 
 .notice-card h2 { margin: 0 0 6px 0; font-size: 20px; }
 .notice-card p  { margin: 4px 0; }
