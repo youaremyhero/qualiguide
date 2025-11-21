@@ -50,22 +50,24 @@ html, body {
 
 .info-button {
   margin-left: auto;
-  height: 32px;
-  width: 32px;
-  border-radius: 999px;
-  border: 2px solid #fff;
-  background: #fff;
-  color: #003366;
-  font-weight: 800;
-  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #00437a;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color 0.2s ease;
 }
 
 .info-button:hover,
 .info-button:focus-visible {
-  background: #e6f0ff;
-  color: #001a40;
+  background: #00325c;
   outline: none;
 }
 
