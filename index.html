@@ -16,8 +16,43 @@
           NUS Qualification Interactive Guide
         </button>
       </h1>
+      <button
+        type="button"
+        class="info-button"
+        id="infoButton"
+        aria-label="About this quiz"
+        aria-haspopup="dialog"
+        aria-controls="infoPopup"
+        aria-expanded="false"
+      >
+        ?
+      </button>
     </div>
   </header>
+
+  <div
+    class="info-popup"
+    id="infoPopup"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="infoPopupTitle"
+    aria-hidden="true"
+  >
+    <div class="info-popup__panel">
+      <div class="info-popup__header">
+        <h2 id="infoPopupTitle">About this quiz</h2>
+        <button type="button" class="info-popup__close" id="infoClose" aria-label="Close">✕</button>
+      </div>
+      <div class="info-popup__body">
+        <p>This interactive guide helps you determine which NUS qualification path fits your background.</p>
+        <ul>
+          <li>Answer each question to move through the flow tailored to your responses.</li>
+          <li>You can restart anytime by clicking the header title or the Restart button in the footer.</li>
+          <li>On the results page, use the Download PDF button to save your recommendations.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
   <main>
     <div class="container" id="quizWrapper">
@@ -68,14 +103,51 @@
     document.addEventListener('DOMContentLoaded', function () {
       const restartBtn = document.getElementById('restartBtn');
       const titleTrigger = document.getElementById('siteTitleRestart');
+      const infoButton = document.getElementById('infoButton');
+      const infoPopup = document.getElementById('infoPopup');
+      const infoClose = document.getElementById('infoClose');
 
-      if (!titleTrigger) return;
+      if (titleTrigger) {
+        titleTrigger.addEventListener('click', function () {
+          if (restartBtn) {
+            restartBtn.click();
+          } else {
+            window.location.href = window.location.pathname;
+          }
+        });
+      }
 
-      titleTrigger.addEventListener('click', function () {
-        if (restartBtn) {
-          restartBtn.click();
-        } else {
-          window.location.href = window.location.pathname;
+      if (!infoButton || !infoPopup) return;
+
+      const openInfo = function () {
+        infoPopup.classList.add('is-visible');
+        infoPopup.setAttribute('aria-hidden', 'false');
+        infoButton.setAttribute('aria-expanded', 'true');
+        if (infoClose) infoClose.focus();
+      };
+
+      const closeInfo = function () {
+        infoPopup.classList.remove('is-visible');
+        infoPopup.setAttribute('aria-hidden', 'true');
+        infoButton.setAttribute('aria-expanded', 'false');
+        infoButton.focus();
+      };
+
+      infoButton.addEventListener('click', openInfo);
+
+      if (infoClose) {
+        infoClose.addEventListener('click', closeInfo);
+      }
+
+      infoPopup.addEventListener('click', function (event) {
+        if (event.target === infoPopup) {
+          closeInfo();
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && infoPopup.classList.contains('is-visible')) {
+          closeInfo();
         }
       });
     });
