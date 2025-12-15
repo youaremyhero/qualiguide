@@ -15,12 +15,12 @@ var commonResources = [
   },
   {
     label: "Programme Prerequisites",
-    url: "https://nus.edu.sg/oam/admissions/before-you-apply",
+    url: "https://nus.edu.sg/oam/admissions/programme-prerequisites",
     description: "(before you apply)"
   },
   {
     label: "Update of Applicant Information",
-    url: "https://nus.edu.sg/oam/admissions/after-you-apply",
+    url: "https://nus.edu.sg/oam/admissions/using-the-applicant-portal",
     description: "(after you apply)"
   }
 ];
