@@ -28,7 +28,7 @@ const localQualifications = [
     id: "singapore-cambridge-gce-a-level",
     name: "Singapore-Cambridge GCE A-Level",
     type: "local",
-    timeline: { start: "2027-02-18", end: "2026-03-19" },
+    timeline: { start: "2027-02-18", end: "2027-03-19" },
     openPeriodText: "18 February 2027 to 19 March 2027",
     closedPeriodText: "has closed.",
     displayPeriod: "18 February 2027 to 19 March 2027",
