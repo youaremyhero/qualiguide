@@ -2,6 +2,12 @@
 // qualifications.js
 // -------------------------------
 
+window.admissionsCycle = {
+  academicYear: "AY2027/2028",
+  lastReviewed: "2026-10-28",
+  source: "https://www.nus.edu.sg/oam/admissions/important-dates"
+};
+
 // --- Transfer Qualification ---
 const transferQualification = {
   id: "transfer",
@@ -9,17 +15,10 @@ const transferQualification = {
   type: "transfer",
   periods: [
     { label: "📅 AY2027/2028 Semester 2", rangeText: "TBC" },
-    { label: "📅 AY2027/2028 Semester 1", rangeText: "2 February 2026 to 14 February 2027" }
+    { label: "📅 AY2027/2028 Semester 1", rangeText: "2 February 2027 to 14 February 2027" }
   ],
   displayPeriod: "Multiple Periods",
   timeline: null,
-  resources: [
-    { label: "Important Dates", url: "https://nus.edu.sg/oam/admissions/important-dates" },
-    { label: "Application Guides & Sample Forms", url: "https://nus.edu.sg/oam/admissions/application-guides-sample-forms" },
-    { label: "Programme Prerequisites", url: "https://www.nus.edu.sg/oam/admissions/programme-prerequisites" },
-    { label: "Using the Applicant Portal", url: "https://www.nus.edu.sg/oam/admissions/using-the-applicant-portal" },
-    { label: "NUS Transfer Eligibility Chart", url: "https://nus.edu.sg/oam/docs/default-source/transfer-applicants/nus-oam-transfer-eligibility-chart.pdf" }
-  ]
 };
 
 // --- Local Qualifications ---
@@ -28,14 +27,10 @@ const localQualifications = [
     id: "singapore-cambridge-gce-a-level",
     name: "Singapore-Cambridge GCE A-Level",
     type: "local",
-    timeline: { start: "2027-02-18", end: "2027-03-19" },
-    openPeriodText: "18 February 2027 to 19 March 2027",
+    timeline: { start: "2027-02-18", end: "2027-03-19", openingNote: "Late Afternoon" },
+    openPeriodText: "18 February 2027 (Late Afternoon) to 19 March 2027",
     closedPeriodText: "has closed.",
-    displayPeriod: "18 February 2027 to 19 March 2027",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/singapore-cambridge-gce-a-level" },
-      { label: "Mother Tongue Language (MTL) requirements", url: "https://www.nus.edu.sg/oam/admissions/singapore-citizens-sprs-with-international-qualifications" }
-    ],
+    displayPeriod: "18 February 2027 (Late Afternoon) to 19 March 2027",
   },
   {
     id: "polytechnic-diploma-singapore",
@@ -45,9 +40,6 @@ const localQualifications = [
     openPeriodText: "16 December 2026 to 3 February 2027",
     closedPeriodText: "has closed.",
     displayPeriod: "16 December 2026 to 3 February 2027",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/polytechnic-diploma-from-singapore" }
-    ]
   },
   {
     id: "nus-high-school-diploma",
@@ -57,9 +49,6 @@ const localQualifications = [
     openPeriodText: "16 December 2026 to 4 January 2027",
     closedPeriodText: "has closed.",
     displayPeriod: "16 December 2026 to 4 January 2027",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/nus-high-school-diploma" }
-    ]
   },
   {
     id: "international-baccalaureate-ib-diploma",
@@ -69,9 +58,6 @@ const localQualifications = [
     openPeriodText: "16 December 2026 to 17 February 2027",
     closedPeriodText: "has closed.",
     displayPeriod: "16 December 2026 to 17 February 2027",
-    resources: [
-      { label: "Admission Requirements", url: "https://www.nus.edu.sg/oam/admissions/ib-diploma" }
-    ]
   }
 ];
 
@@ -92,9 +78,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText, 
     standardisedTest: "Yes",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/international-'a'-level" }
-    ]
   },
   {
     id: "american-high-school-diploma",
@@ -106,9 +89,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/american-high-school-diploma" }
-    ]
   },
   {
     id: "australian-high-school",
@@ -120,9 +100,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/australian-high-school" }
-    ]
   },
   {
     id: "brunei-a-level",
@@ -134,9 +111,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/brunei-a-level" }
-    ]
   },
   {
     id: "canadian-high-school-diploma",
@@ -148,9 +122,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/canadian-high-school-diploma" }
-    ]
   },
   {
     id: "cape",
@@ -162,9 +133,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/cape" }
-    ]
   },
   {
     id: "danish-studentereksamen",
@@ -176,9 +144,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/danish-studentereksamen" }
-    ]
   },
   {
     id: "european-baccalaureate",
@@ -190,9 +155,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/european-baccalaureate-diploma" }
-    ]
   },
   {
     id: "french-baccalaureate",
@@ -204,9 +166,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/french-baccalaureate-diploma" }
-    ]
   },
   {
     id: "gao-kao",
@@ -218,9 +177,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/gao-kao" }
-    ]
   },
   {
     id: "german-abitur",
@@ -232,9 +188,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/german-abitur" }
-    ]
   },
   {
     id: "hkdse",
@@ -246,9 +199,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/hkdse" }
-    ]
   },
   {
     id: "independent-examinations-board",
@@ -260,9 +210,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/independent-examinations-board" }
-    ]
   },
   {
     id: "indian-standard-12-central-isc",
@@ -274,9 +221,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/indian-standard-12-central-isc" }
-    ]
   },
   {
     id: "indian-standard-12-state",
@@ -288,9 +232,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/indian-standard-12-state" }
-    ]
   },
   {
     id: "indonesian-ujian-nasional",
@@ -302,9 +243,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/indonesian-ujian-nasional" }
-    ]
   },
   {
     id: "italian-diploma-di-esame-di-stato",
@@ -316,9 +254,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/italian-diploma-di-esame-di-stato" }
-    ]
   },
   {
     id: "mauritius-high-school-certificate",
@@ -330,9 +265,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/mauritius-high-school-certificate" }
-    ]
   },
   {
     id: "ncea-level-3",
@@ -344,9 +276,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/ncea-level-3" }
-    ]
   },
   {
     id: "oman-thanawiya-amma",
@@ -358,9 +287,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/oman-thanawiya-amma" }
-    ]
   },
   {
     id: "stpm",
@@ -372,9 +298,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/stpm" }
-    ]
   },
   {
     id: "sri-lanka-a-level",
@@ -386,9 +309,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/sri-lanka-a-level" }
-    ]
   },
   {
     id: "swiss-matura",
@@ -400,9 +320,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/swiss-matura-swiss-federal-maturity-certificate" }
-    ]
   },
   {
     id: "taiwan-senior-high-school",
@@ -414,9 +331,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/taiwan-senior-high-school" }
-    ]
   },
   {
     id: "thailand-mathayom-6",
@@ -428,9 +342,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/thailand-mathayom-6" }
-    ]
   },
   {
     id: "turkish-high-school",
@@ -442,9 +353,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/turkish-high-school" }
-    ]
   },
   {
     id: "uec",
@@ -456,9 +364,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/uec" }
-    ]
   },
   {
     id: "vietnam-national-high-school",
@@ -470,9 +375,6 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "No",
     englishRequirement: "Yes",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/vietnam-national-high-school" }
-    ]
   },
   {
     id: "other-high-school",
@@ -484,11 +386,12 @@ const internationalQualifications = [
     displayPeriod: internationalOpenText,
     standardisedTest: "Yes",
     englishRequirement: "No",
-    resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-qualifications/international-qualifications/other-high-school-qualifications" }
-    ]
   }
 ];
+
+// Keep the qualification picker alphabetical within each group.
+localQualifications.sort((a, b) => a.name.localeCompare(b.name));
+internationalQualifications.sort((a, b) => a.name.localeCompare(b.name));
 
 // --- Final Flat Array ---
 const qualificationsData = [
@@ -503,15 +406,3 @@ window.qualificationsData = qualificationsData;
 // Attach separate arrays globally for surveyFlow
 window.localQualifications = localQualifications;
 window.internationalQualifications = internationalQualifications;
-
-
-
-
-
-
-
-
-
-
-
-

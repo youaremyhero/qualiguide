@@ -67,6 +67,7 @@
             <div class="actions-inner">
               <button type="submit" id="continueBtn">Continue</button>
               <button type="button" id="downloadPdfBtn">Download PDF</button>
+              <p id="pdfStatus" role="status" aria-live="polite"></p>
             </div>
           </div>
 
@@ -124,6 +125,9 @@
         infoPopup.classList.add('is-visible');
         infoPopup.setAttribute('aria-hidden', 'false');
         infoButton.setAttribute('aria-expanded', 'true');
+        document.querySelector("main").inert = true;
+        document.querySelector("header").inert = true;
+        document.querySelector("footer").inert = true;
         if (infoClose) infoClose.focus();
       };
 
@@ -131,6 +135,9 @@
         infoPopup.classList.remove('is-visible');
         infoPopup.setAttribute('aria-hidden', 'true');
         infoButton.setAttribute('aria-expanded', 'false');
+        document.querySelector("main").inert = false;
+        document.querySelector("header").inert = false;
+        document.querySelector("footer").inert = false;
         infoButton.focus();
       };
 
@@ -147,7 +154,11 @@
       });
 
       document.addEventListener('keydown', function (event) {
-        if (event.key === 'Escape' && infoPopup.classList.contains('is-visible')) {
+        if (event.key === "Tab" && infoPopup.classList.contains("is-visible")) {
+          event.preventDefault();
+          infoClose.focus();
+        }
+        if (event.key === 'Escape'  && infoPopup.classList.contains('is-visible')) {
           closeInfo();
         }
       });
@@ -163,8 +174,3 @@
 
 </body>
 </html>
-
-
-
-
-

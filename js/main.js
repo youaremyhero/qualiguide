@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     quizContainer.classList.remove("final-scroll", "final-mode");
     // keep visible so the expanded dropdown can overlay (desktop),
     // and allow the container to scroll on mobile via CSS media rules
-    quizContainer.style.overflowY = "visible";
+    quizContainer.style.removeProperty("overflow-y");
     formActions.classList.remove("final-actions");
     const dateEl = document.getElementById("actionsDate");
     if (dateEl) dateEl.style.display = "none";
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const titleHtml = String(qualification.name).replace(/\s*\/\s*/g, "/<wbr> ");
     return `
       <div class="page-title-block">
-        <div class="page-title">${titleHtml}</div>
+        <h2 class="page-title" tabindex="-1">${titleHtml}</h2>
       </div>
     `;
   }
@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function formatToday() {
     try {
-      return new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric" });
+      return new Date().toLocaleDateString("en-SG", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Singapore" });
     } catch {
       return new Date().toDateString();
     }
@@ -174,6 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     closeAllDropdowns();
     currentStepId = stepId;
+    document.getElementById("pdfStatus").textContent = "";
 
     if (pageTitle) pageTitle.innerHTML = "";
     setQuestionScrollMode();
@@ -189,7 +190,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    const questionLabel = document.createElement("div");
+    const questionLabel = document.createElement("h2");
+    questionLabel.id = "currentQuestion";
+    questionLabel.tabIndex = -1;
     questionLabel.className = "question-label";
     questionLabel.textContent = step.question;
     quizContainer.appendChild(questionLabel);
@@ -304,6 +307,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       const optionsDiv = document.createElement("div");
       optionsDiv.className = "options-list";
+      optionsDiv.setAttribute("role", "radiogroup");
+      optionsDiv.setAttribute("aria-labelledby", "currentQuestion");
 
       step.options.forEach(opt => {
         const normalized = normalizeOption(opt);
@@ -335,6 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
     continueBtn.style.display = "block";
     downloadPdfBtn.style.display = "none";
     quizContainer.scrollTop = 0;
+    questionLabel.focus({ preventScroll: true });
   }
 
   function renderEndPage(qualificationId) {
@@ -358,12 +364,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const audience = getAudience();
     const contentHTML = renderQualificationContent(qualification, audience);
 
-    quizContainer.innerHTML = headerHTML + contentHTML;
+    quizContainer.innerHTML = headerHTML + contentHTML + `
+      <p class="review-note">${window.admissionsCycle.academicYear} · Dates reviewed: ${window.admissionsCycle.lastReviewed} ·
+      <a href="${window.admissionsCycle.source}" target="_blank" rel="noopener noreferrer">Check current NUS dates</a></p>`;
 
     // end-page actions
     setFinalScrollMode();
     ensureDateLabel();
     downloadPdfBtn.style.display = "inline-block";
+    quizContainer.querySelector(".page-title").focus({ preventScroll: true });
     continueBtn.style.display = "none";
     quizContainer.scrollTop = 0;
   }
@@ -392,46 +401,36 @@ document.addEventListener("DOMContentLoaded", () => {
     followNextStepId(resolveNextStep(step, selected));
   });
 
-  // PDF: capture only the scroll area (not the actions bar)
-  downloadPdfBtn.addEventListener("click", () => {
-    if (typeof html2pdf === "undefined") return alert("PDF engine is still loading. Please try again in a moment.");
-
-    const prevOverflow = quizContainer.style.overflow;
-    const prevOverflowY = quizContainer.style.overflowY;
-    const prevHeight = quizContainer.style.height;
-    const prevMaxH = quizContainer.style.maxHeight;
-
-    quizContainer.style.overflow = "visible";
-    quizContainer.style.overflowY = "visible";
-    quizContainer.style.height = "auto";
-    quizContainer.style.maxHeight = "none";
-
-    const opt = {
-      margin: 0.5,
-      filename: "NUS_Qualification_Guide.pdf",
-      html2canvas: { scale: 2, useCORS: true, windowWidth: document.documentElement.offsetWidth },
-      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ["css", "legacy"] }
-    };
-
-    html2pdf()
-      .set(opt)
-      .from(quizContainer)
-      .save()
-      .then(() => {
-        quizContainer.style.overflow = prevOverflow;
-        quizContainer.style.overflowY = prevOverflowY;
-        quizContainer.style.height = prevHeight;
-        quizContainer.style.maxHeight = prevMaxH;
-        setFinalScrollMode();
-      })
-      .catch(() => {
-        quizContainer.style.overflow = prevOverflow;
-        quizContainer.style.overflowY = prevOverflowY;
-        quizContainer.style.height = prevHeight;
-        quizContainer.style.maxHeight = prevMaxH;
-        setFinalScrollMode();
-      });
+  // PDF: capture a dated copy without changing the live scroll layout.
+  downloadPdfBtn.addEventListener("click", async () => {
+    const status = document.getElementById("pdfStatus");
+    if (typeof html2pdf === "undefined") {
+      status.textContent = "PDF download is unavailable. Please check your connection and try again.";
+      return;
+    }
+    downloadPdfBtn.disabled = true;
+    status.textContent = "Preparing PDF…";
+    const exportContent = quizContainer.cloneNode(true);
+    exportContent.removeAttribute("id");
+    exportContent.className = "pdf-export";
+    const date = document.createElement("p");
+    date.textContent = `Generated: ${formatToday()} (Singapore time)`;
+    exportContent.prepend(date);
+    try {
+      await html2pdf().set({
+        margin: 0.5,
+        filename: "NUS_Qualification_Guide.pdf",
+        html2canvas: { scale: 2, useCORS: true, windowWidth: 1100 },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
+        pagebreak: { mode: ["css", "legacy"], avoid: [".resource-card", ".notice-card", ".login-card"] }
+      }).from(exportContent).save();
+      status.textContent = "PDF download ready.";
+    } catch (error) {
+      status.textContent = "PDF download failed. Please select Download PDF to retry.";
+      console.error("PDF export failed", error);
+    } finally {
+      downloadPdfBtn.disabled = false;
+    }
   });
 
   // init

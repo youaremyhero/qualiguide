@@ -9,9 +9,17 @@ QualiGuide is a lightweight web quiz that helps prospective students discover wh
 
 ## Useful details
 - **Technology stack:** Static HTML, CSS, and vanilla JavaScript (see `index.html`, `css/`, and `js/`).
-- **Customization:** Update the question content and branching logic inside `js/surveyFlow.js`; UI tweaks live in `css/style.css`.
+- **Customization:** Update the question content and branching logic inside `js/surveyFlow.js`; UI tweaks live in `css/styles.css`.
 - **Running locally:** Open `index.html` in any modern browser—no build tools or servers required.
 
 Feel free to adapt the question flow or styling to match your organization’s admissions guidance needs. :)
 
 Created by a NUS employee with time to spare using ChatGPT and Codex.
+
+
+## Maintaining admissions dates
+- Update `window.admissionsCycle` and qualification timelines in `js/qualifications.js` from the NUS Important Dates page. Transfer Semester 2 remains TBC until explicitly updated.
+- Dates use Singapore calendar days, inclusive of the closing date. Where NUS gives only “Late Afternoon”, the opening day directs users to check portal availability rather than inventing a precise opening time.
+- Maintain application links in `js/resources.js`; templates use those same links.
+- Run `node --test tests/*.test.cjs`. GitHub Actions runs these checks on pushes and pull requests.
+- Navigation intentionally requires Restart to change earlier answers.

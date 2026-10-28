@@ -8,12 +8,6 @@ const allQualifications = [
   ...(window.internationalQualifications || [])
 ].filter(q => q.id !== "transfer");
 
-// Debugging: log qualifications
-console.log(
-  "All qualifications for dropdown:",
-  allQualifications.map(q => q.name)
-);
-
 // -------------------------------
 // Survey Flow
 // -------------------------------

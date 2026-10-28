@@ -692,22 +692,24 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Keyboard focus, short viewports, and export layout */
+.question-label { margin-top: 0; }
+.page-title { margin: 0; }
+.question-label:focus, .page-title:focus { outline: none; }
+button:focus-visible, input:focus-visible, a:focus-visible {
+  outline: 3px solid #1976d2;
+  outline-offset: 3px;
+}
+.review-note, #pdfStatus { font-size: 13px; }
+#pdfStatus:empty { display: none; }
+.actions-inner { flex-wrap: wrap; }
+#pdfStatus { flex-basis: 100%; margin: 0; }
+.pdf-export { width: 720px; height: auto; overflow: visible; background: #fff; padding: 12px; }
+.pdf-export .resource-list { grid-template-columns: 1fr; }
+.info-popup__panel { max-height: calc(100dvh - 102px); overflow-y: auto; }
+@media (max-height: 650px) {
+  #quizContainer:not(.final-mode) { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+}
+@media (max-width: 600px) {
+  #quizContainer { min-height: 0; padding-bottom: 12px; }
+}

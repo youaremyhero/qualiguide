@@ -2,7 +2,20 @@
 // template.js (audience-aware login + links, fixed "Qualification" for other-high-school)
 // -------------------------------
 
-const today = new Date();
+// Compare calendar dates in Singapore, including the entire closing day.
+function singaporeDateKey(now = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Singapore", year: "numeric", month: "2-digit", day: "2-digit"
+  }).format(now);
+}
+
+function applicationStatus(timeline, now = new Date()) {
+  const date = singaporeDateKey(now);
+  if (date < timeline.start) return "upcoming";
+  if (date > timeline.end) return "closed";
+  if (date === timeline.start && timeline.openingNote) return "opening-day";
+  return "open";
+}
 
 // External links used in login instructions
 const APPLICANT_PORTAL_URL = "https://myaces.nus.edu.sg/applicantPortal/app/login";
@@ -88,14 +101,6 @@ function renderResourcesCard(qualification) {
 /* -------------------------------
    Notice helpers
 --------------------------------*/
-function getAcademicYear(fromDate) {
-  if (!(fromDate instanceof Date) || isNaN(fromDate)) return null;
-  const m = fromDate.getMonth(); // 0-11
-  const y = fromDate.getFullYear();
-  const ayStart = (m >= 7) ? y + 1 : y; // Aug–Dec -> next year start
-  return `AY${ayStart}/${ayStart + 1}`;
-}
-
 // Multi-line notice across all templates
 function renderNoticeCard(qualification) {
   // Transfer: multiple periods, same notice style
@@ -112,16 +117,19 @@ function renderNoticeCard(qualification) {
 
   if (!qualification.timeline) return "";
 
-  const start = new Date(qualification.timeline.start);
-  const end   = new Date(qualification.timeline.end);
-  const ayStr = getAcademicYear(start);
+  const status = applicationStatus(qualification.timeline);
+  const ayStr = window.admissionsCycle.academicYear;
 
   let statusText, cardClass, line3Prefix;
-  if (today < start) {
+  if (status === "upcoming") {
     statusText = "has not started yet.";
     cardClass = "notice-upcoming";     // light red (matches closed)
     line3Prefix = "Opens on ";
-  } else if (today <= end) {
+  } else if (status === "opening-day") {
+    statusText = "opens today (late afternoon). Please check the Applicant Portal for availability.";
+    cardClass = "notice-upcoming";
+    line3Prefix = "Period: ";
+  } else if (status === "open") {
     statusText = "is open.";
     cardClass = "notice-open";         // green (via CSS)
     line3Prefix = "Open: ";
@@ -149,11 +157,11 @@ function renderNoticeCard(qualification) {
 --------------------------------*/
 
 // Determine the correct MTL link per your rule:
-// - Local quals: use qualification.mtlUrl if present; otherwise try the first resource (admission page) if available.
+// - Local quals: use qualification.mtlUrl or the canonical admission resource.
 // - International quals: use the fixed page.
 function getMtlLink(qualification) {
   if (qualification.type === "local") {
-    return qualification.mtlUrl || (qualification.resources?.[0]?.url) || null;
+    return qualification.mtlUrl || window.uniqueResources?.[qualification.id]?.[0]?.url || null;
   }
   return "https://nus.edu.sg/oam/admissions/singapore-citizens-sprs-with-international-qualifications";
 }
