@@ -8,16 +8,16 @@ const transferQualification = {
   name: "Transfer",
   type: "transfer",
   periods: [
-    { label: "📅 AY2025/2026 Semester 2", rangeText: "29 October 2025 to 12 November 2025" },
-    { label: "📅 AY2026/2027 Semester 1", rangeText: "3 February 2026 to 15 February 2026" }
+    { label: "📅 AY2027/2028 Semester 2", rangeText: "TBC" },
+    { label: "📅 AY2027/2028 Semester 1", rangeText: "2 February 2026 to 14 February 2027" }
   ],
   displayPeriod: "Multiple Periods",
   timeline: null,
   resources: [
     { label: "Important Dates", url: "https://nus.edu.sg/oam/admissions/important-dates" },
     { label: "Application Guides & Sample Forms", url: "https://nus.edu.sg/oam/admissions/application-guides-sample-forms" },
-    { label: "Programme Prerequisites", url: "https://nus.edu.sg/oam/admissions/before-you-apply" },
-    { label: "Update of Applicant Information", url: "https://nus.edu.sg/oam/admissions/after-you-apply" },
+    { label: "Programme Prerequisites", url: "https://www.nus.edu.sg/oam/admissions/programme-prerequisites" },
+    { label: "Using the Applicant Portal", url: "https://www.nus.edu.sg/oam/admissions/using-the-applicant-portal" },
     { label: "NUS Transfer Eligibility Chart", url: "https://nus.edu.sg/oam/docs/default-source/transfer-applicants/nus-oam-transfer-eligibility-chart.pdf" }
   ]
 };
@@ -28,10 +28,10 @@ const localQualifications = [
     id: "singapore-cambridge-gce-a-level",
     name: "Singapore-Cambridge GCE A-Level",
     type: "local",
-    timeline: { start: "2026-02-25", end: "2026-03-19" },
-    openPeriodText: "25 February 2026 to 19 March 2026",
+    timeline: { start: "2027-02-18", end: "2026-03-19" },
+    openPeriodText: "18 February 2027 to 19 March 2027",
     closedPeriodText: "has closed.",
-    displayPeriod: "25 February 2026 to 19 March 2026",
+    displayPeriod: "18 February 2027 to 19 March 2027",
     resources: [
       { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/singapore-cambridge-gce-a-level" },
       { label: "Mother Tongue Language (MTL) requirements", url: "https://www.nus.edu.sg/oam/admissions/singapore-citizens-sprs-with-international-qualifications" }
@@ -41,10 +41,10 @@ const localQualifications = [
     id: "polytechnic-diploma-singapore",
     name: "Polytechnic Diploma from Singapore",
     type: "local",
-    timeline: { start: "2025-12-17", end: "2026-02-04" },
-    openPeriodText: "17 December 2025 to 4 February 2026",
+    timeline: { start: "2026-12-16", end: "2027-02-03" },
+    openPeriodText: "16 December 2026 to 3 February 2027",
     closedPeriodText: "has closed.",
-    displayPeriod: "17 December 2025 to 4 February 2026",
+    displayPeriod: "16 December 2026 to 3 February 2027",
     resources: [
       { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/polytechnic-diploma-from-singapore" }
     ]
@@ -53,24 +53,24 @@ const localQualifications = [
     id: "nus-high-school-diploma",
     name: "NUS High School Diploma",
     type: "local",
-    timeline: { start: "2025-12-17", end: "2026-01-02" },
-    openPeriodText: "17 December 2025 to 2 January 2026",
+    timeline: { start: "2026-12-16", end: "2027-01-04" },
+    openPeriodText: "16 December 2026 to 4 January 2027",
     closedPeriodText: "has closed.",
-    displayPeriod: "17 December 2025 to 2 January 2026",
+    displayPeriod: "16 December 2026 to 4 January 2027",
     resources: [
       { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/nus-high-school-diploma" }
     ]
   },
   {
     id: "international-baccalaureate-ib-diploma",
-    name: "International Baccalaureate (IB) Diploma",
+    name: "IB Diploma",
     type: "local",
-    timeline: { start: "2025-12-17", end: "2026-03-23" },
-    openPeriodText: "17 December 2025 to 23 March 2026",
+    timeline: { start: "2026-12-16", end: "2027-02-17" },
+    openPeriodText: "16 December 2026 to 17 February 2027",
     closedPeriodText: "has closed.",
-    displayPeriod: "17 December 2025 to 23 March 2026",
+    displayPeriod: "16 December 2026 to 17 February 2027",
     resources: [
-      { label: "Admission Requirements", url: "https://nus.edu.sg/oam/admissions/international-baccalaureate-(ib)-diploma" }
+      { label: "Admission Requirements", url: "https://www.nus.edu.sg/oam/admissions/ib-diploma" }
     ]
   }
 ];
