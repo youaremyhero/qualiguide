@@ -19,7 +19,7 @@ var commonResources = [
     description: "(before you apply)"
   },
   {
-    label: "Update of Applicant Information",
+    label: "Using the Applicant Portal",
     url: "https://nus.edu.sg/oam/admissions/using-the-applicant-portal",
     description: "(after you apply)"
   }
@@ -84,8 +84,8 @@ var uniqueResources = {
   ],
   "international-baccalaureate-ib-diploma": [
     {
-      label: "International Baccalaureate (IB) Diploma Admission Requirements",
-      url: "https://www.nus.edu.sg/oam/admissions/international-baccalaureate-(ib)-diploma"
+      label: "IB Diploma Admission Requirements",
+      url: "https://www.nus.edu.sg/oam/admissions/ib-diploma"
     }
   ],
 
