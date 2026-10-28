@@ -77,8 +77,8 @@ const localQualifications = [
 
 
 // --- International Qualifications ---
-const internationalTimeline = { start: "2025-12-03", end: "2026-02-23" };
-const internationalOpenText = "3 December 2025 to 23 February 2026";
+const internationalTimeline = { start: "2026-12-16", end: "2027-02-17" };
+const internationalOpenText = "16 December 2026 to 17 February 2027";
 const internationalClosedText = "has closed.";
 
 const internationalQualifications = [
